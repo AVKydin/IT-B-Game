@@ -7,7 +7,15 @@
 
 let countClick = 0;
 let blockCount = document.querySelector("#count");
+let btn2 = document.querySelector("#btn2");
 
+console.dir(btn2);
+
+btn2.onclick = function () {
+    p2 = document.querySelector("#p2");
+    p2.style.background = "red";
+    p2.style.color = "blue";
+}
 
 console.dir(blockCount);
 
