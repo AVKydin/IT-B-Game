@@ -1,22 +1,21 @@
-// 1. Зробити клік по першій кнопці +++
+// 1. Зробити клік по першій кнопці                             +++
 // 2. Збільшити лічильник на одиницю:
-//      -збільшувати лічильник (countClick) +++
-//      -відобразити на екрані в блоці span кількість кліків
+//      -збільшувати лічильник (countClick)                     +++
+//      -відобразити на екрані в блоці span кількість кліків    +++
 
 
 
-let countClick = 15;
+let countClick = 0;
+let blockCount = document.querySelector("#count");
 
-let text = 'текст';
 
-console.dir(countClick);
-
-countClick += 1;
-console.dir(countClick);
-
-console.dir(text);
+console.dir(blockCount);
 
 function btnClick() {
     countClick += 1;
-    console.dir(countClick);
+    blockCount.innerText = countClick;
 }
+
+
+
+    

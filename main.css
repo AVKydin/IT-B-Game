@@ -3,3 +3,12 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+p{
+    color: green;
+}
+
+button{
+    background-color: yellow;
+    columns: #cc0000;
+}
