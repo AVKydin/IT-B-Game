@@ -123,7 +123,10 @@ body{
     background: url(assets/images/duck/black/left/0.png) center center no-repeat;
     background-size: cover;
 }
-
+.red-duck-left{
+    background: url(assets/images/duck/red/left/0.png) center center no-repeat;
+    background-size: cover;
+}
 /*Message container*/
 .message-bar{
     width: 100%;
