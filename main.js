@@ -85,10 +85,18 @@
 
 
 /* plan day2-2
-1. Створити три качки 
+1. Створити три качки                                                   +++
         <div class="duck black-duck-left" style="left: 40%;"></div>
-2. Зробити випадковий рух качки                
-3. Коли качка долітаю до будь-якої границі змінити напрям      
+2. Зробити випадковий рух качки
+        зробити виліт качак з випадкового місця
+        зробити випадковий напрям руху качки
+            ліво
+            право
+            ліво-верх
+            ліво-низ
+            право-верх
+            право-низ
+3. Коли качка долітаю до будь-якої границі змінити напрям               
 4.                 
 5.       
 */
@@ -96,17 +104,46 @@
 const gameArea = document.querySelector('.game-area');
 
 
+// function createDuck(top, left, type) {
+//     let duck =
+//       '<div class="duck ' +
+//       type +
+//       '-duck-left" style="left: ' +
+//       left +
+//       ";top: " +
+//       top +
+//       '"></div>';
+//     gameArea.innerHTML = gameArea.innerHTML + duck;
+// }
+
 function createDuck(top, left, type) {
-    let duck =
-      '<div class="duck ' +
-      type +
-      '-duck-left" style="left: ' +
-      left +
-      ";top: " +
-      top +
-      '"></div>';
-    gameArea.innerHTML = gameArea.innerHTML + duck;
+  let duck = document.createElement('div');
+  duck.className = 'duck ' + type + '-duck-left'
+  duck.style.top = top;
+  duck.style.left = left;
+
+  gameArea.appendChild(duck);
+  moveDuck(duck);
 }
 
 createDuck("10%", "40%", 'black');
-createDuck("20%", "30%", 'red');
+createDuck("20%", "30%", "red");
+createDuck("30%", "50%", "red");
+
+function moveDuck(duck) {
+  let imageDuck = 1;
+  let timeId = setInterval(function() {
+          // console.dir(duck.offsetLeft);
+          if (imageDuck < 2) {
+            imageDuck += 1;
+          } else if (imageDuck === 2) {
+            imageDuck = 0;
+          }
+          duck.style.backgroundImage =
+            "url(assets/images/duck/black/left/" + imageDuck + ".png)";
+      duck.style.left = duck.offsetLeft - 10 + "px";
+      if (duck.offsetLeft < 0) {
+          clearInterval(timeId);
+      }
+  }, 100);
+}
