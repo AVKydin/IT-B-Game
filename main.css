@@ -95,6 +95,7 @@ body{
     width: 100%;
     flex-grow: 2;
     position: relative;
+    overflow: hidden;
 }
 
 /*Dog styles*/

@@ -88,7 +88,7 @@
 1. Створити три качки                                                   +++
         <div class="duck black-duck-left" style="left: 40%;"></div>
 2. Зробити випадковий рух качки
-        зробити виліт качак з випадкового місця
+        зробити виліт качак з випадкового місця                         +++
         зробити випадковий напрям руху качки
             ліво
             право
@@ -100,7 +100,7 @@
 4.                 
 5.       
 */
-
+const score = 10;
 const gameArea = document.querySelector('.game-area');
 
 
@@ -116,34 +116,121 @@ const gameArea = document.querySelector('.game-area');
 //     gameArea.innerHTML = gameArea.innerHTML + duck;
 // }
 
-function createDuck(top, left, type) {
+function createDuck(left, type) {
   let duck = document.createElement('div');
   duck.className = 'duck ' + type + '-duck-left'
-  duck.style.top = top;
+  duck.style.top = '100%';
   duck.style.left = left;
 
   gameArea.appendChild(duck);
-  moveDuck(duck);
+  moveDuck(duck, type);
 }
 
-createDuck("10%", "40%", 'black');
-createDuck("20%", "30%", "red");
-createDuck("30%", "50%", "red");
+createDuck(getRandom(0, 100) + '%', "black");
+createDuck(getRandom(0, 100) + "%", "red");
+createDuck(getRandom(0, 100) + "%", "red");
 
-function moveDuck(duck) {
-  let imageDuck = 1;
-  let timeId = setInterval(function() {
-          // console.dir(duck.offsetLeft);
+function moveDuck(duck, type) {
+  let imageDuck = 0;
+  let direction = directionStart(duck);
+  let timerId = setInterval(function () {
+              // console.dir(duck.offsetLeft);
           if (imageDuck < 2) {
             imageDuck += 1;
           } else if (imageDuck === 2) {
             imageDuck = 0;
-          }
-          duck.style.backgroundImage =
-            "url(assets/images/duck/black/left/" + imageDuck + ".png)";
-      duck.style.left = duck.offsetLeft - 10 + "px";
+    }
+    
+    switch (direction) {
+      case "top-left":
+        moveTopLeft(duck, type, imageDuck);
+        break;
+      case "top-right":
+        moveTopRight(duck, type, imageDuck);
+        break;
+      case "right":
+        moveRight(duck, type, imageDuck);
+        break;
+      case "left":
+        moveLeft(duck, type, imageDuck);
+        break;
+      case "down-left":
+        moveDownLeft(duck, type, imageDuck);
+        break;
+      case "down-right":
+        moveDownRight(duck, type, imageDuck);
+        break;
+      default:
+        moveTopLeft(duck, type, imageDuck);
+        break;
+    }
+
+    // moveTopRight(duck, type, imageDuck);
+
       if (duck.offsetLeft < 0) {
-          clearInterval(timeId);
+          clearInterval(timerId);
       }
   }, 100);
+}
+
+function directionStart(duck) {
+  let direction = "top-left";
+  let body = document.querySelector('body');
+
+  if (duck.offsetLeft <= body.clientWidth / 2) {
+    direction = "top-right";
+  }  
+
+
+  return direction;
+}
+
+/*
+1. Функція змінює картинку
+2. Функція змінює напрям
+*/
+
+function moveLeft(duck, type, imageDuck) {
+  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft - score + "px";
+}
+
+function moveRight(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft + score + "px";
+}
+
+function moveTopLeft(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft - score + "px";
+  duck.style.top = duck.offsetTop - score + "px";
+}
+
+function moveTopRight(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft + score + "px";
+  duck.style.top = duck.offsetTop - score + "px";
+}
+
+function moveDownLeft(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft - score + "px";
+  duck.style.top = duck.offsetTop + score + "px";
+}
+
+function moveDownRight(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
+  duck.style.left = duck.offsetLeft + score + "px";
+  duck.style.top = duck.offsetTop + score + "px";
+}
+
+function getRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
 }
