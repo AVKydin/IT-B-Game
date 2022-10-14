@@ -120,16 +120,20 @@ const gameArea = document.querySelector('.game-area');
 function createDuck(left) {
   let duck = document.createElement('div');
   let type = getRandomInt(0, 2);
+  
 
       if (type == 0) {
         type = "black";
       } else {
         type = "red";
   }
+
+  let timerId = moveDuck(duck, type);
   
   duck.className = 'duck ' + type + '-duck-left'
   duck.style.top = '100%';
-  duck.style.left = getRandomInt(0,100) + "%";
+  duck.style.left = getRandomInt(0, 100) + "%";
+  duck.dataset.timer = timerId
 
   gameArea.appendChild(duck);
   moveDuck(duck, type);
@@ -159,6 +163,13 @@ start();
 // createDuck(getRandom(0, 100) + '%', "black");
 // createDuck(getRandom(0, 100) + "%", "red");
 // createDuck(getRandom(0, 100) + "%", "red");
+
+gameArea.onclick = function (e) {
+  console.dir(e.target);
+  if (e.target.classList.contains('duck') == true) {
+    e.target.remove();
+  }
+}
 
 function moveDuck(duck, type) {
   let imageDuck = 0;
@@ -216,6 +227,8 @@ function moveDuck(duck, type) {
       //     clearInterval(timerId);
       // }
   }, 100);
+
+  return timerId
 }
 
 function directionStart(duck) {
