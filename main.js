@@ -100,9 +100,12 @@
 4.                 
 5.       
 */
-const score = 20;
+let scores = 0;
+const speed = 20;
 let bullet = 5;
 const gameArea = document.querySelector('.game-area');
+const scoresBlock = document.querySelector('.scores');
+const audioGun = document.querySelector('#audioGun')
 
 
 // function createDuck(top, left, type) {
@@ -165,10 +168,21 @@ start();
 // createDuck(getRandom(0, 100) + "%", "red");
 
 gameArea.onclick = function (e) {
-  console.dir(e.target);
+  if (bullet > 0) {
+    audioGun.play();
+
+  bullet -= 1;
+
   if (e.target.classList.contains('duck') == true) {
     e.target.remove();
+    scores += 100;
+    scoresBlock.innerText = scores;
+    clearInterval(e.target.dataset.timer);
   }
+  } else {
+
+  }
+  
 }
 
 function moveDuck(duck, type) {
@@ -291,7 +305,7 @@ function changeDirection(before) {
 
 function moveLeft(duck, type, imageDuck) {
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft - score + "px";
+  duck.style.left = duck.offsetLeft - speed + "px";
   if (duck.offsetLeft <=  50) {
     return false;
   }
@@ -301,7 +315,7 @@ function moveLeft(duck, type, imageDuck) {
 function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft + score + "px";
+  duck.style.left = duck.offsetLeft + speed + "px";
   if (duck.offsetLeft >= document.body.clientWidth -150) {
     return false;
   }
@@ -311,8 +325,8 @@ function moveRight(duck, type, imageDuck) {
 function moveTopLeft(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft - score + "px";
-  duck.style.top = duck.offsetTop - score + "px";
+  duck.style.left = duck.offsetLeft - speed + "px";
+  duck.style.top = duck.offsetTop - speed + "px";
 
   if (duck.offsetLeft <= 50 || duck.offsetTop <= 50) {
     return false;
@@ -323,8 +337,8 @@ function moveTopLeft(duck, type, imageDuck) {
 function moveTopRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft + score + "px";
-  duck.style.top = duck.offsetTop - score + "px";
+  duck.style.left = duck.offsetLeft + speed + "px";
+  duck.style.top = duck.offsetTop - speed + "px";
   if (
     duck.offsetLeft >= document.body.clientWidth - 50 ||
     duck.offsetTop <= 50
@@ -337,8 +351,8 @@ function moveTopRight(duck, type, imageDuck) {
 function moveDownLeft(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft - score + "px";
-  duck.style.top = duck.offsetTop + score + "px";
+  duck.style.left = duck.offsetLeft - speed + "px";
+  duck.style.top = duck.offsetTop + speed + "px";
     if (
       duck.offsetLeft >= document.body.clientWidth -10 ||
       duck.offsetTop >= gameArea.clientHeight - 110
@@ -351,8 +365,8 @@ function moveDownLeft(duck, type, imageDuck) {
 function moveDownRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
-  duck.style.left = duck.offsetLeft + score + "px";
-  duck.style.top = duck.offsetTop + score + "px";
+  duck.style.left = duck.offsetLeft + speed + "px";
+  duck.style.top = duck.offsetTop + speed + "px";
   if (
     duck.offsetLeft >= document.body.clientWidth  ||
     duck.offsetTop >= gameArea.clientHeight
