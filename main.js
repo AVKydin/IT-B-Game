@@ -133,6 +133,8 @@ createDuck(getRandom(0, 100) + "%", "red");
 function moveDuck(duck, type) {
   let imageDuck = 0;
   let direction = directionStart(duck);
+  let move = true;
+
   let timerId = setInterval(function () {
               // console.dir(duck.offsetLeft);
           if (imageDuck < 2) {
@@ -140,36 +142,41 @@ function moveDuck(duck, type) {
           } else if (imageDuck === 2) {
             imageDuck = 0;
     }
-    
-    switch (direction) {
-      case "top-left":
-        moveTopLeft(duck, type, imageDuck);
-        break;
-      case "top-right":
-        moveTopRight(duck, type, imageDuck);
-        break;
-      case "right":
-        moveRight(duck, type, imageDuck);
-        break;
-      case "left":
-        moveLeft(duck, type, imageDuck);
-        break;
-      case "down-left":
-        moveDownLeft(duck, type, imageDuck);
-        break;
-      case "down-right":
-        moveDownRight(duck, type, imageDuck);
-        break;
-      default:
-        moveTopLeft(duck, type, imageDuck);
-        break;
+    if (!move) {
+          clearInterval(timerId);
+
     }
+           
+        switch (direction) {
+          case "top-left":
+           move = moveTopLeft(duck, type, imageDuck);
+
+            break;
+          case "top-right":
+           move = moveTopRight(duck, type, imageDuck);
+            break;
+          case "right":
+           move = moveRight(duck, type, imageDuck);
+            break;
+          case "left":
+           move = moveLeft(duck, type, imageDuck);
+            break;
+          case "down-left":
+           move = moveDownLeft(duck, type, imageDuck);
+            break;
+          case "down-right":
+           move = moveDownRight(duck, type, imageDuck);
+            break;
+          default:
+           move = moveTopLeft(duck, type, imageDuck);
+            break;
+        }
 
     // moveTopRight(duck, type, imageDuck);
 
-      if (duck.offsetLeft < 0) {
-          clearInterval(timerId);
-      }
+      // if (duck.offsetLeft < 0) {
+      //     clearInterval(timerId);
+      // }
   }, 100);
 }
 
@@ -188,17 +195,26 @@ function directionStart(duck) {
 /*
 1. Функція змінює картинку
 2. Функція змінює напрям
+3. Прописати перквірки границь
 */
 
 function moveLeft(duck, type, imageDuck) {
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - score + "px";
+  if (duck.offsetLeft <=  10) {
+    return false;
+  }
+  return true;
 }
 
 function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + score + "px";
+  if (duck.offsetLeft >= document.body.clientWidth -10) {
+    return false;
+  }
+  return true;
 }
 
 function moveTopLeft(duck, type, imageDuck) {
@@ -206,6 +222,11 @@ function moveTopLeft(duck, type, imageDuck) {
     "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - score + "px";
   duck.style.top = duck.offsetTop - score + "px";
+
+  if (duck.offsetLeft <= 10 || duck.offsetTop <= 10) {
+    return false;
+  }
+  return true;
 }
 
 function moveTopRight(duck, type, imageDuck) {
@@ -213,6 +234,13 @@ function moveTopRight(duck, type, imageDuck) {
     "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + score + "px";
   duck.style.top = duck.offsetTop - score + "px";
+  if (
+    duck.offsetLeft >= document.body.clientWidth -10 ||
+    duck.offsetTop <= 10
+  ) {
+    return false;
+  }
+  return true;
 }
 
 function moveDownLeft(duck, type, imageDuck) {
@@ -220,6 +248,13 @@ function moveDownLeft(duck, type, imageDuck) {
     "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - score + "px";
   duck.style.top = duck.offsetTop + score + "px";
+    if (
+      duck.offsetLeft >= document.body.clientWidth - 10 ||
+      duck.offsetTop >= gameArea.clientHeight - 10
+    ) {
+      return false;
+    }
+    return true;
 }
 
 function moveDownRight(duck, type, imageDuck) {
@@ -227,6 +262,13 @@ function moveDownRight(duck, type, imageDuck) {
     "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + score + "px";
   duck.style.top = duck.offsetTop + score + "px";
+  if (
+    duck.offsetLeft <= 10 ||
+    duck.offsetTop >= gameArea.clientHeight
+  ) {
+    return false;
+  }
+  return true;
 }
 
 function getRandom(min, max) {
