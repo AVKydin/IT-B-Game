@@ -120,7 +120,7 @@ const audioGun = document.querySelector('#audioGun')
 //     gameArea.innerHTML = gameArea.innerHTML + duck;
 // }
 
-function createDuck(left) {
+function createDuck() {
   let duck = document.createElement('div');
   let type = getRandomInt(0, 2);
   
@@ -171,22 +171,72 @@ gameArea.onclick = function (e) {
   if (bullet > 0) {
     audioGun.play();
 
-  bullet -= 1;
+    bullet -= 1;
 
-  if (e.target.classList.contains('duck') == true) {
-    e.target.remove();
-    scores += 100;
-    scoresBlock.innerText = scores;
-    clearInterval(e.target.dataset.timer);
-  }
+    let oneBulletBlock = document.querySelector('.bullets-container div');
+        oneBulletBlock.remove()
+
+    if (
+      e.target.classList.contains("duck") == true &&
+      e.target.classList.contains("shot") != true
+    ) {
+      scores += 100;
+      scoresBlock.innerText = scores;
+
+      shotDuck(e.target);
+
+      // e.target.remove();
+      clearInterval(e.target.dataset.timer);
+    }
   } else {
-
+    console.dir('подай патрони')
   }
+
   
+  
+}
+
+function shotDuck(duck) {
+  let type = 'black';
+
+  duck.classList.add('shot')
+
+  if (duck.classList.contains('.red-duck-left')) {
+    type = 'red';
+  }
+  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/shot/0.png)";
+// e.target.remove()
+  setTimeout(function () {
+    deadDuck(duck, type);
+  }, 300)
+  
+}
+
+function deadDuck(duck, type) {
+  let imageDuck = 0;
+
+  let timerId = setInterval(function () {
+    imageDuck += 1;
+
+    if (imageDuck > 2) {
+        imageDuck = 0;
+    }
+    
+    duck.style.backgroundImage = "url(assets/images/duck/" + type + "/dead/" + imageDuck + ".png)";
+    duck.style.top = duck.offsetTop + speed + "px";
+    
+    if (duck.offsetTop >= document.body.clientHeight) {
+      clearInterval(timerId);
+      duck.remove();
+    }
+  }, 200)
+
+ 
 }
 
 function moveDuck(duck, type) {
   let imageDuck = 0;
+
   let direction = directionStart(duck);
   let move = true;
 
@@ -194,7 +244,7 @@ function moveDuck(duck, type) {
               // console.dir(duck.offsetLeft);
           if (imageDuck < 2) {
             imageDuck += 1;
-          } else if (imageDuck === 2) {
+          } else if (imageDuck == 2) {
             imageDuck = 0;
     }
     if (!move) {
@@ -240,7 +290,7 @@ function moveDuck(duck, type) {
       // if (duck.offsetLeft < 0) {
       //     clearInterval(timerId);
       // }
-  }, 100);
+  }, 200);
 
   return timerId
 }
@@ -316,7 +366,7 @@ function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
-  if (duck.offsetLeft >= document.body.clientWidth -150) {
+  if (duck.offsetLeft >= document.body.clientWidth -10) {
     return false;
   }
   return true;
@@ -328,7 +378,7 @@ function moveTopLeft(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft - speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
 
-  if (duck.offsetLeft <= 50 || duck.offsetTop <= 50) {
+  if (duck.offsetLeft <= 50 || duck.offsetTop <= 10) {
     return false;
   }
   return true;
@@ -340,8 +390,8 @@ function moveTopRight(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft + speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
   if (
-    duck.offsetLeft >= document.body.clientWidth - 50 ||
-    duck.offsetTop <= 50
+    duck.offsetLeft >= document.body.clientWidth - 10 ||
+    duck.offsetTop <= 10
   ) {
     return false;
   }
@@ -355,7 +405,7 @@ function moveDownLeft(duck, type, imageDuck) {
   duck.style.top = duck.offsetTop + speed + "px";
     if (
       duck.offsetLeft >= document.body.clientWidth -10 ||
-      duck.offsetTop >= gameArea.clientHeight - 110
+      duck.offsetTop >= gameArea.clientHeight - 10
     ) {
       return false;
     }
