@@ -100,7 +100,8 @@
 4.                 
 5.       
 */
-const score = 10;
+const score = 20;
+let bullet = 5;
 const gameArea = document.querySelector('.game-area');
 
 
@@ -116,19 +117,48 @@ const gameArea = document.querySelector('.game-area');
 //     gameArea.innerHTML = gameArea.innerHTML + duck;
 // }
 
-function createDuck(left, type) {
+function createDuck(left) {
   let duck = document.createElement('div');
+  let type = getRandomInt(0, 2);
+
+      if (type == 0) {
+        type = "black";
+      } else {
+        type = "red";
+  }
+  
   duck.className = 'duck ' + type + '-duck-left'
   duck.style.top = '100%';
-  duck.style.left = left;
+  duck.style.left = getRandomInt(0,100) + "%";
 
   gameArea.appendChild(duck);
   moveDuck(duck, type);
 }
 
-createDuck(getRandom(0, 100) + '%', "black");
-createDuck(getRandom(0, 100) + "%", "red");
-createDuck(getRandom(0, 100) + "%", "red");
+function start() {
+  let i = 0;
+  while (i < bullet) {
+
+  createBullet();
+    createDuck();
+    i += 1;
+    
+  }
+}
+
+function createBullet() {
+  let bulletBlock = document.querySelector(".bullets-container");
+  let bullet = document.createElement('div');
+  bullet.className = 'bullet';
+
+  bulletBlock.appendChild(bullet);
+}
+
+start();
+
+// createDuck(getRandom(0, 100) + '%', "black");
+// createDuck(getRandom(0, 100) + "%", "red");
+// createDuck(getRandom(0, 100) + "%", "red");
 
 function moveDuck(duck, type) {
   let imageDuck = 0;
@@ -200,7 +230,7 @@ function directionStart(duck) {
 }
 
 function changeDirection(before) {
-  let random = getRandom(0, 6);
+  let random = getRandomInt(0, 6);
   let direction = null;
   switch (random) {
     case 0:
@@ -249,7 +279,7 @@ function changeDirection(before) {
 function moveLeft(duck, type, imageDuck) {
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - score + "px";
-  if (duck.offsetLeft <=  10) {
+  if (duck.offsetLeft <=  50) {
     return false;
   }
   return true;
@@ -271,7 +301,7 @@ function moveTopLeft(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft - score + "px";
   duck.style.top = duck.offsetTop - score + "px";
 
-  if (duck.offsetLeft <= 10 || duck.offsetTop <= 10) {
+  if (duck.offsetLeft <= 50 || duck.offsetTop <= 50) {
     return false;
   }
   return true;
@@ -284,7 +314,7 @@ function moveTopRight(duck, type, imageDuck) {
   duck.style.top = duck.offsetTop - score + "px";
   if (
     duck.offsetLeft >= document.body.clientWidth - 50 ||
-    duck.offsetTop <= 10
+    duck.offsetTop <= 50
   ) {
     return false;
   }
@@ -297,7 +327,7 @@ function moveDownLeft(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft - score + "px";
   duck.style.top = duck.offsetTop + score + "px";
     if (
-      duck.offsetLeft >= document.body.clientWidth - 10 ||
+      duck.offsetLeft >= document.body.clientWidth -10 ||
       duck.offsetTop >= gameArea.clientHeight - 110
     ) {
       return false;
@@ -311,7 +341,7 @@ function moveDownRight(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft + score + "px";
   duck.style.top = duck.offsetTop + score + "px";
   if (
-    duck.offsetLeft >= document.body.clientWidth - 150 ||
+    duck.offsetLeft >= document.body.clientWidth  ||
     duck.offsetTop >= gameArea.clientHeight
   ) {
     return false;
@@ -319,7 +349,7 @@ function moveDownRight(duck, type, imageDuck) {
   return true;
 }
 
-function getRandom(min, max) {
+function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min);
