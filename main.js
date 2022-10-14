@@ -143,32 +143,40 @@ function moveDuck(duck, type) {
             imageDuck = 0;
     }
     if (!move) {
-          clearInterval(timerId);
+          // clearInterval(timerId);
+      direction = changeDirection(direction);
+      move = true;
 
     }
            
         switch (direction) {
           case "top-left":
-           move = moveTopLeft(duck, type, imageDuck);
-
+            move = moveTopLeft(duck, type, imageDuck);
+            // return "top-right";
             break;
           case "top-right":
-           move = moveTopRight(duck, type, imageDuck);
+            move = moveTopRight(duck, type, imageDuck);
+            // return "top-left";
             break;
           case "right":
-           move = moveRight(duck, type, imageDuck);
+            move = moveRight(duck, type, imageDuck);
+            // return "right";
             break;
           case "left":
-           move = moveLeft(duck, type, imageDuck);
+            move = moveLeft(duck, type, imageDuck);
+            // return "left";
             break;
           case "down-left":
-           move = moveDownLeft(duck, type, imageDuck);
+            move = moveDownLeft(duck, type, imageDuck);
+            // return "down-left";
             break;
           case "down-right":
-           move = moveDownRight(duck, type, imageDuck);
+            move = moveDownRight(duck, type, imageDuck);
+            // return "down-right";
             break;
           default:
-           move = moveTopLeft(duck, type, imageDuck);
+            move = moveTopLeft(duck, type, imageDuck);
+            // return "top-left";
             break;
         }
 
@@ -188,8 +196,48 @@ function directionStart(duck) {
     direction = "top-right";
   }  
 
-
   return direction;
+}
+
+function changeDirection(before) {
+  let random = getRandom(0, 6);
+  let direction = null;
+  switch (random) {
+    case 0:
+      //  move = moveTopLeft(duck, type, imageDuck);
+      direction = "top-right";
+      break;
+    case 1:
+      //  move = moveTopRight(duck, type, imageDuck);
+      direction = "top-left";
+      break;
+    case 2:
+      //  move = moveRight(duck, type, imageDuck);
+      direction = "right";
+      break;
+    case 3:
+      //  move = moveLeft(duck, type, imageDuck);
+      direction = "left";
+      break;
+    case 4:
+      //  move = moveDownLeft(duck, type, imageDuck);
+      direction = "down-left";
+      break;
+    case 5:
+      //  move = moveDownRight(duck, type, imageDuck);
+      direction = "down-right";
+      break;
+    default:
+      //  move = moveTopLeft(duck, type, imageDuck);
+      direction = "top-left";
+      break;
+  }
+
+  if (direction == before) {
+    changeDirection(before);
+  } else {
+    return direction;
+  }
 }
 
 /*
@@ -211,7 +259,7 @@ function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + score + "px";
-  if (duck.offsetLeft >= document.body.clientWidth -10) {
+  if (duck.offsetLeft >= document.body.clientWidth -150) {
     return false;
   }
   return true;
@@ -235,7 +283,7 @@ function moveTopRight(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft + score + "px";
   duck.style.top = duck.offsetTop - score + "px";
   if (
-    duck.offsetLeft >= document.body.clientWidth -10 ||
+    duck.offsetLeft >= document.body.clientWidth - 50 ||
     duck.offsetTop <= 10
   ) {
     return false;
@@ -250,7 +298,7 @@ function moveDownLeft(duck, type, imageDuck) {
   duck.style.top = duck.offsetTop + score + "px";
     if (
       duck.offsetLeft >= document.body.clientWidth - 10 ||
-      duck.offsetTop >= gameArea.clientHeight - 10
+      duck.offsetTop >= gameArea.clientHeight - 110
     ) {
       return false;
     }
@@ -263,7 +311,7 @@ function moveDownRight(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft + score + "px";
   duck.style.top = duck.offsetTop + score + "px";
   if (
-    duck.offsetLeft <= 10 ||
+    duck.offsetLeft >= document.body.clientWidth - 150 ||
     duck.offsetTop >= gameArea.clientHeight
   ) {
     return false;
