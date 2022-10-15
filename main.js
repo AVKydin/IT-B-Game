@@ -101,7 +101,7 @@
 5.       
 */
 let scores = 0;
-const speed = 20;
+const speed = 10;
 let bullet = 5;
 const gameArea = document.querySelector('.game-area');
 const scoresBlock = document.querySelector('.scores');
@@ -133,20 +133,20 @@ function createDuck() {
 
   let timerId = moveDuck(duck, type);
   
-  duck.className = 'duck ' + type + '-duck-left'
+  duck.className = 'duck ' + type + '-duck-left';
   duck.style.top = '100%';
   duck.style.left = getRandomInt(0, 100) + "%";
-  duck.dataset.timer = timerId
+  duck.dataset.timer = timerId;
 
   gameArea.appendChild(duck);
-  moveDuck(duck, type);
+  // moveDuck(duck, type);
 }
 
 function start() {
   let i = 0;
-  while (i < bullet) {
 
-  createBullet();
+  while (i < bullet) {
+    createBullet();
     createDuck();
     i += 1;
     
@@ -178,37 +178,34 @@ gameArea.onclick = function (e) {
 
     if (
       e.target.classList.contains("duck") == true &&
-      e.target.classList.contains("shot") != true
+      e.target.classList.contains("shot") == false
     ) {
       scores += 100;
       scoresBlock.innerText = scores;
 
       shotDuck(e.target);
 
-      // e.target.remove();
       clearInterval(e.target.dataset.timer);
     }
   } else {
     console.dir('подай патрони')
   }
-
-  
-  
 }
 
 function shotDuck(duck) {
-  let type = 'black';
-
-  duck.classList.add('shot')
-
-  if (duck.classList.contains('.red-duck-left')) {
-    type = 'red';
+  let type;
+  duck.classList.add("shot");
+  if (duck.classList.contains(".black-duck-left")) {
+    type = "black";
+  } else {
+    type = "red";
   }
+  
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/shot/0.png)";
-// e.target.remove()
+
   setTimeout(function () {
     deadDuck(duck, type);
-  }, 300)
+  }, 1000)
   
 }
 
@@ -221,7 +218,8 @@ function deadDuck(duck, type) {
     if (imageDuck > 2) {
         imageDuck = 0;
     }
-    
+   
+
     duck.style.backgroundImage = "url(assets/images/duck/" + type + "/dead/" + imageDuck + ".png)";
     duck.style.top = duck.offsetTop + speed + "px";
     
@@ -229,7 +227,7 @@ function deadDuck(duck, type) {
       clearInterval(timerId);
       duck.remove();
     }
-  }, 200)
+  }, 20)
 
  
 }
@@ -241,14 +239,14 @@ function moveDuck(duck, type) {
   let move = true;
 
   let timerId = setInterval(function () {
-              // console.dir(duck.offsetLeft);
-          if (imageDuck < 2) {
-            imageDuck += 1;
-          } else if (imageDuck == 2) {
-            imageDuck = 0;
+    imageDuck += 1;
+
+    if (imageDuck > 2)  {
+        imageDuck =0;
     }
-    if (!move) {
-          // clearInterval(timerId);
+    
+    if (move == false) {
+
       direction = changeDirection(direction);
       move = true;
 
@@ -257,42 +255,30 @@ function moveDuck(duck, type) {
         switch (direction) {
           case "top-left":
             move = moveTopLeft(duck, type, imageDuck);
-            // return "top-right";
             break;
           case "top-right":
             move = moveTopRight(duck, type, imageDuck);
-            // return "top-left";
             break;
           case "right":
             move = moveRight(duck, type, imageDuck);
-            // return "right";
             break;
           case "left":
             move = moveLeft(duck, type, imageDuck);
-            // return "left";
             break;
           case "down-left":
             move = moveDownLeft(duck, type, imageDuck);
-            // return "down-left";
             break;
           case "down-right":
             move = moveDownRight(duck, type, imageDuck);
-            // return "down-right";
             break;
           default:
             move = moveTopLeft(duck, type, imageDuck);
-            // return "top-left";
             break;
         }
 
-    // moveTopRight(duck, type, imageDuck);
+  }, 50);
 
-      // if (duck.offsetLeft < 0) {
-      //     clearInterval(timerId);
-      // }
-  }, 200);
-
-  return timerId
+  return timerId;
 }
 
 function directionStart(duck) {
@@ -356,7 +342,7 @@ function changeDirection(before) {
 function moveLeft(duck, type, imageDuck) {
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - speed + "px";
-  if (duck.offsetLeft <=  50) {
+  if (duck.offsetLeft <=  0) {
     return false;
   }
   return true;
@@ -366,7 +352,7 @@ function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
     "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
-  if (duck.offsetLeft >= document.body.clientWidth -10) {
+  if (duck.offsetLeft + duck.clientWidth >= document.body.clientWidth -10) {
     return false;
   }
   return true;
@@ -378,7 +364,7 @@ function moveTopLeft(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft - speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
 
-  if (duck.offsetLeft <= 50 || duck.offsetTop <= 10) {
+  if (duck.offsetLeft <= 10 || duck.offsetTop <= 10) {
     return false;
   }
   return true;
@@ -390,7 +376,7 @@ function moveTopRight(duck, type, imageDuck) {
   duck.style.left = duck.offsetLeft + speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
   if (
-    duck.offsetLeft >= document.body.clientWidth - 10 ||
+    duck.offsetLeft + duck.clientWidth>= document.body.clientWidth - 10 ||
     duck.offsetTop <= 10
   ) {
     return false;
@@ -399,12 +385,11 @@ function moveTopRight(duck, type, imageDuck) {
 }
 
 function moveDownLeft(duck, type, imageDuck) {
-  duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - speed + "px";
   duck.style.top = duck.offsetTop + speed + "px";
     if (
-      duck.offsetLeft >= document.body.clientWidth -10 ||
+      duck.offsetLeft <= 10 ||
       duck.offsetTop >= gameArea.clientHeight - 10
     ) {
       return false;
@@ -413,12 +398,11 @@ function moveDownLeft(duck, type, imageDuck) {
 }
 
 function moveDownRight(duck, type, imageDuck) {
-  duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
   duck.style.top = duck.offsetTop + speed + "px";
   if (
-    duck.offsetLeft >= document.body.clientWidth  ||
+    duck.offsetLeft + duck.clientWidth >= document.body.clientWidth -10  ||
     duck.offsetTop >= gameArea.clientHeight
   ) {
     return false;
@@ -429,5 +413,13 @@ function moveDownRight(duck, type, imageDuck) {
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
+
   return Math.floor(Math.random() * (max - min) + min);
 }
+
+/*
+1. коли нема пуль всі качки полктіли вгору
+2. перерахувати не вбитих качок
+3. рахувати кількість вбитих качок
+4. новий рівень
+*/
