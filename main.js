@@ -188,7 +188,7 @@ gameArea.onclick = function (e) {
       clearInterval(e.target.dataset.timer);
     }
   } else {
-    console.dir('подай патрони')
+    nextStep();
   }
 }
 
@@ -423,3 +423,48 @@ function getRandomInt(min, max) {
 3. рахувати кількість вбитих качок
 4. новий рівень
 */
+
+function moveTop(duck, type, imageDuck) {
+  duck.style.backgroundImage =
+    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.top = duck.offsetTop - speed + "px";
+  if (duck.offsetTop + duck.clientHeight <= 0) {
+    return false;
+  }
+  return true;
+}
+
+function nextStep() {
+  let ducks = document.querySelectorAll('.duck');
+
+  if (ducks.length > 0) {
+    let i = 0;
+
+    while (i < ducks.length) {
+      let duck = ducks[i];
+      let type = 'black';
+
+      if (duck.classList.contains('.red-duck-left')) {
+        
+        type = 'red';
+      }
+      let move = true;
+      clearInterval(duck.dataset.timer);
+      let imageDuck = 0;
+      let timeId = setInterval(function () {
+        move = moveTop(duck, type, imageDuck);
+        imageDuck += 1;
+        if (imageDuck > 2) {
+          imageDuck = 0;
+        }
+        
+        if (move == false) {
+          clearInterval(timeId);
+          duck.remove();
+        }
+      }, 200)
+      
+      i += 1;
+    }
+  }
+}
