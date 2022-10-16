@@ -1,4 +1,4 @@
-// 'use strict'
+'use strict'
 
 // 1. Зробити клік по першій кнопці                             +++
 // 2. Збільшити лічильник на одиницю:
@@ -156,9 +156,7 @@ function start() {
     createDuck();
     
     i += 1;
-    
   }
-  
 }
 
 function createBullet() {
@@ -166,8 +164,7 @@ function createBullet() {
   let bullet = document.createElement('div');
   bullet.className = 'bullet';
 
-  bulletBlock.appendChild(bullet);
-  
+  bulletBlock.appendChild(bullet);  
 }
 
 start();
@@ -177,7 +174,6 @@ start();
 // createDuck(getRandom(0, 100) + "%", "red");
 
 gameArea.onclick = function (e) {
-
   if (bullet > 0) {
     audioGun.play();
 
@@ -186,8 +182,7 @@ gameArea.onclick = function (e) {
     let oneBulletBlock = document.querySelector('.bullets-container div');
         oneBulletBlock.remove()
 
-    if (
-      e.target.classList.contains("duck") == true &&
+    if (e.target.classList.contains("duck") == true &&
       e.target.classList.contains("shot") == false
     ) {
       scores += 100;
@@ -199,19 +194,20 @@ gameArea.onclick = function (e) {
     }
   } else {
     nextStep();
-
   }
 }
 
+
+
 function shotDuck(duck) {
+    
   let type;
-  duck.classList.add("shot");
-  if (duck.classList.contains(".black-duck-left")) {
-    type = "black";
-  } else {
+  if (duck.classList.contains(".red-duck-left")) {
     type = "red";
+  } else {
+    type = "black";
   }
-  
+  duck.classList.add("shot");
   duck.style.backgroundImage = "url(assets/images/duck/" + type + "/shot/0.png)";
 
   setTimeout(function () {
@@ -221,7 +217,6 @@ function shotDuck(duck) {
 }
 
 function deadDuck(duck, type) {
-  
   dead += 1;
   let imageDuck = 0;
 
@@ -231,7 +226,6 @@ function deadDuck(duck, type) {
     if (imageDuck > 2) {
         imageDuck = 0;
     }
-   
 
     duck.style.backgroundImage = "url(assets/images/duck/" + type + "/dead/" + imageDuck + ".png)";
     duck.style.top = duck.offsetTop + speed + "px";
@@ -241,13 +235,10 @@ function deadDuck(duck, type) {
       duck.remove();
     }
   }, 20)
-
- 
 }
 
 function moveDuck(duck, type) {
   let imageDuck = 0;
-
   let direction = directionStart(duck);
   let move = true;
 
@@ -265,29 +256,29 @@ function moveDuck(duck, type) {
 
     }
            
-        switch (direction) {
-          case "top-left":
-            move = moveTopLeft(duck, type, imageDuck);
-            break;
-          case "top-right":
-            move = moveTopRight(duck, type, imageDuck);
-            break;
-          case "right":
-            move = moveRight(duck, type, imageDuck);
-            break;
-          case "left":
-            move = moveLeft(duck, type, imageDuck);
-            break;
-          case "down-left":
-            move = moveDownLeft(duck, type, imageDuck);
-            break;
-          case "down-right":
-            move = moveDownRight(duck, type, imageDuck);
-            break;
-          default:
-            move = moveTopLeft(duck, type, imageDuck);
-            break;
-        }
+    switch (direction) {
+      case "top-left":
+        move = moveTopLeft(duck, type, imageDuck);
+        break;
+      case "top-right":
+        move = moveTopRight(duck, type, imageDuck);
+        break;
+      case "right":
+        move = moveRight(duck, type, imageDuck);
+        break;
+      case "left":
+        move = moveLeft(duck, type, imageDuck);
+        break;
+      case "down-left":
+        move = moveDownLeft(duck, type, imageDuck);
+        break;
+      case "down-right":
+        move = moveDownRight(duck, type, imageDuck);
+        break;
+      default:
+        move = moveTopLeft(duck, type, imageDuck);
+        break;
+    }
 
   }, 50);
 
@@ -308,33 +299,27 @@ function directionStart(duck) {
 function changeDirection(before) {
   let random = getRandomInt(0, 6);
   let direction = null;
+
   switch (random) {
     case 0:
-      //  move = moveTopLeft(duck, type, imageDuck);
       direction = "top-right";
       break;
     case 1:
-      //  move = moveTopRight(duck, type, imageDuck);
       direction = "top-left";
       break;
     case 2:
-      //  move = moveRight(duck, type, imageDuck);
       direction = "right";
       break;
     case 3:
-      //  move = moveLeft(duck, type, imageDuck);
       direction = "left";
       break;
     case 4:
-      //  move = moveDownLeft(duck, type, imageDuck);
       direction = "down-left";
       break;
     case 5:
-      //  move = moveDownRight(duck, type, imageDuck);
       direction = "down-right";
       break;
     default:
-      //  move = moveTopLeft(duck, type, imageDuck);
       direction = "top-left";
       break;
   }
@@ -422,6 +407,15 @@ function moveDownRight(duck, type, imageDuck) {
   }
   return true;
 }
+function moveTop(duck, type, imageDuck) {
+  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.top = duck.offsetTop - speed + "px";
+
+  if (duck.offsetTop + duck.clientHeight <= 0) {
+    return false;
+  }
+  return true;
+}
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -437,19 +431,11 @@ function getRandomInt(min, max) {
 4. новий рівень
 */
 
-function moveTop(duck, type, imageDuck) {
-  duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
-  duck.style.top = duck.offsetTop - speed + "px";
-  if (duck.offsetTop + duck.clientHeight <= 0) {
-    return false;
-  }
-  return true;
-}
+
 let next = false;
 function nextStep() {
   if (next == false) {
-      
+    next = true;
     let ducks = document.querySelectorAll('.duck');
     let ducksDead = document.querySelectorAll('.duck.shot')
 
@@ -462,11 +448,10 @@ function nextStep() {
 
     while (i < ducks.length) {
       let duck = ducks[i];
-      free += 1;
+      // free += 1;
       let type = 'black';
 
       if (duck.classList.contains('.red-duck-left')) {
-        
         type = 'red';
       }
       let move = true;
@@ -494,9 +479,7 @@ function nextStep() {
       next = false;
       nextLevel();
     }, 4000);
-    
   }
-
 }
 
 function nextLevel() {
@@ -509,9 +492,10 @@ function diedIconDuck() {
   let i = 0;
   let diedBlock = document.querySelector('.died-ducks-cnt-container');
   diedBlock.innerText = '';
+
   while (i < dead) {
     let div = document.createElement('div');
-    div.className = 'died-duck-icon'
+    div.className = 'died-duck-icon';
     diedBlock.appendChild(div);
     i += 1;
   }
@@ -521,10 +505,10 @@ function freeIconDuck() {
     let i = 0;
     let freeBlock = document.querySelector(".left-ducks-cnt-container");
     freeBlock.innerText = "";
-    while (i < free) {
-      let div = document.createElement("div");
-      div.className = "left-duck-icon";
-      freeBlock.appendChild(div);
-      i += 1;
-    }
+  while (i < free) {
+    let div = document.createElement("div");
+    div.className = "left-duck-icon";
+    freeBlock.appendChild(div);
+    i += 1;
+  }
 }
