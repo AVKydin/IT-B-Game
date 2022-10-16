@@ -105,7 +105,8 @@ const speed = 10;
 let bullet = 5;
 const gameArea = document.querySelector('.game-area');
 const scoresBlock = document.querySelector('.scores');
-const audioGun = document.querySelector('#audioGun')
+const audioGun = document.querySelector('#audioGun');
+let level = 1;
 let dead = 0;
 let free = 0;
 
@@ -147,6 +148,7 @@ function createDuck() {
 
 
 function start() {
+  bullet = level * 3;
   let i = 0;
 
   while (i < bullet) {
@@ -444,12 +446,19 @@ function moveTop(duck, type, imageDuck) {
   }
   return true;
 }
-
+let next = false;
 function nextStep() {
-  let ducks = document.querySelectorAll('.duck');
+  if (next == false) {
+      
+    let ducks = document.querySelectorAll('.duck');
+    let ducksDead = document.querySelectorAll('.duck.shot')
 
   if (ducks.length > 0) {
     let i = 0;
+    free = ducks.length - ducksDead.length;
+    if (free < 0) {
+      free *= -1;
+    }
 
     while (i < ducks.length) {
       let duck = ducks[i];
@@ -474,15 +483,25 @@ function nextStep() {
           clearInterval(timeId);
           duck.remove();
         }
-      }, 200)
+      }, 30)
       
       i += 1;
+    }
+    }
     diedIconDuck();
     freeIconDuck();
-    }
-
+    setTimeout(function () {
+      next = false;
+      nextLevel();
+    }, 4000);
+    
   }
 
+}
+
+function nextLevel() {
+  level += 1;
+  start();
 }
 
 
