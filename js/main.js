@@ -62,7 +62,7 @@
 //     } else if (imageDuck === 2 ) {
 //       imageDuck = 0;
 //     }
-//     duck.style.backgroundImage = "url(assets/images/duck/black/left/" + imageDuck + ".png)";
+//     duck.style.backgroundImage = "url(image/images/duck/black/left/" + imageDuck + ".png)";
 //     duck.style.left = duck.offsetLeft - 10 + "px";
 // }
 
@@ -74,7 +74,7 @@
 //           imageDuck = 0;
 //         }
 //         duck.style.backgroundImage =
-//           "url(assets/images/duck/black/left/" + imageDuck + ".png)";
+//           "url(image/images/duck/black/left/" + imageDuck + ".png)";
 //     duck.style.left = duck.offsetLeft - 10 + "px";
     
 //     if (duck.offsetLeft < 0) {
@@ -208,7 +208,7 @@ function shotDuck(duck) {
     type = "black";
   }
   duck.classList.add("shot");
-  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/shot/0.png)";
+  duck.style.backgroundImage = "url(image/images/duck/" + type + "/shot/0.png)";
 
   setTimeout(function () {
     deadDuck(duck, type);
@@ -227,7 +227,7 @@ function deadDuck(duck, type) {
         imageDuck = 0;
     }
 
-    duck.style.backgroundImage = "url(assets/images/duck/" + type + "/dead/" + imageDuck + ".png)";
+    duck.style.backgroundImage = "url(image/images/duck/" + type + "/dead/" + imageDuck + ".png)";
     duck.style.top = duck.offsetTop + speed + "px";
     
     if (duck.offsetTop >= document.body.clientHeight) {
@@ -338,7 +338,7 @@ function changeDirection(before) {
 */
 
 function moveLeft(duck, type, imageDuck) {
-  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/left/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(image/images/duck/" + type + "/left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - speed + "px";
   if (duck.offsetLeft <=  0) {
     return false;
@@ -348,7 +348,7 @@ function moveLeft(duck, type, imageDuck) {
 
 function moveRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/right/"  + imageDuck + ".png)";
+    "url(image/images/duck/" + type + "/right/"  + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
   if (duck.offsetLeft + duck.clientWidth >= document.body.clientWidth -10) {
     return false;
@@ -358,7 +358,7 @@ function moveRight(duck, type, imageDuck) {
 
 function moveTopLeft(duck, type, imageDuck) {
   duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+    "url(image/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
 
@@ -370,7 +370,7 @@ function moveTopLeft(duck, type, imageDuck) {
 
 function moveTopRight(duck, type, imageDuck) {
   duck.style.backgroundImage =
-    "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
+    "url(image/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
   duck.style.top = duck.offsetTop - speed + "px";
   if (
@@ -383,7 +383,7 @@ function moveTopRight(duck, type, imageDuck) {
 }
 
 function moveDownLeft(duck, type, imageDuck) {
-  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(image/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft - speed + "px";
   duck.style.top = duck.offsetTop + speed + "px";
     if (
@@ -396,7 +396,7 @@ function moveDownLeft(duck, type, imageDuck) {
 }
 
 function moveDownRight(duck, type, imageDuck) {
-  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(image/images/duck/" + type + "/top-right/" + imageDuck + ".png)";
   duck.style.left = duck.offsetLeft + speed + "px";
   duck.style.top = duck.offsetTop + speed + "px";
   if (
@@ -408,7 +408,7 @@ function moveDownRight(duck, type, imageDuck) {
   return true;
 }
 function moveTop(duck, type, imageDuck) {
-  duck.style.backgroundImage = "url(assets/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
+  duck.style.backgroundImage = "url(image/images/duck/" + type + "/top-left/" + imageDuck + ".png)";
   duck.style.top = duck.offsetTop - speed + "px";
 
   if (duck.offsetTop + duck.clientHeight <= 0) {
