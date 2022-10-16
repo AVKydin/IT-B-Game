@@ -106,6 +106,8 @@ let bullet = 5;
 const gameArea = document.querySelector('.game-area');
 const scoresBlock = document.querySelector('.scores');
 const audioGun = document.querySelector('#audioGun')
+let dead = 0;
+let free = 0;
 
 
 // function createDuck(top, left, type) {
@@ -140,7 +142,9 @@ function createDuck() {
 
   gameArea.appendChild(duck);
   // moveDuck(duck, type);
+  
 }
+
 
 function start() {
   let i = 0;
@@ -148,9 +152,11 @@ function start() {
   while (i < bullet) {
     createBullet();
     createDuck();
+    
     i += 1;
     
   }
+  
 }
 
 function createBullet() {
@@ -159,6 +165,7 @@ function createBullet() {
   bullet.className = 'bullet';
 
   bulletBlock.appendChild(bullet);
+  
 }
 
 start();
@@ -168,6 +175,7 @@ start();
 // createDuck(getRandom(0, 100) + "%", "red");
 
 gameArea.onclick = function (e) {
+
   if (bullet > 0) {
     audioGun.play();
 
@@ -189,6 +197,7 @@ gameArea.onclick = function (e) {
     }
   } else {
     nextStep();
+
   }
 }
 
@@ -210,6 +219,8 @@ function shotDuck(duck) {
 }
 
 function deadDuck(duck, type) {
+  
+  dead += 1;
   let imageDuck = 0;
 
   let timerId = setInterval(function () {
@@ -442,6 +453,7 @@ function nextStep() {
 
     while (i < ducks.length) {
       let duck = ducks[i];
+      free += 1;
       let type = 'black';
 
       if (duck.classList.contains('.red-duck-left')) {
@@ -465,6 +477,35 @@ function nextStep() {
       }, 200)
       
       i += 1;
+    diedIconDuck();
+    freeIconDuck();
     }
+
   }
+
+}
+
+
+function diedIconDuck() {
+  let i = 0;
+  let diedBlock = document.querySelector('.died-ducks-cnt-container');
+  diedBlock.innerText = '';
+  while (i < dead) {
+    let div = document.createElement('div');
+    div.className = 'died-duck-icon'
+    diedBlock.appendChild(div);
+    i += 1;
+  }
+}
+
+function freeIconDuck() {
+    let i = 0;
+    let freeBlock = document.querySelector(".left-ducks-cnt-container");
+    freeBlock.innerText = "";
+    while (i < free) {
+      let div = document.createElement("div");
+      div.className = "left-duck-icon";
+      freeBlock.appendChild(div);
+      i += 1;
+    }
 }
