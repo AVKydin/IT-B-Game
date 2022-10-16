@@ -166,7 +166,7 @@ body{
 .died-duck-icon{
     height: 41px;
     width: 38px;
-    background: url(image/images/hud/score-dead/0.png) no-repeat center/100%;
+    background: url(../image/images/hud/score-dead/0.png) no-repeat center/100%;
     background-size: cover;
 
 }
@@ -176,7 +176,7 @@ body{
 .left-duck-icon{
     height: 41px;
     width: 38px;
-    background: url(image/images/hud/score-live/0.png) no-repeat center/100%;
+    background: url(../image/images/hud/score-live/0.png) no-repeat center/100%;
     background-size: cover;
 }
 .controls-content-container{
